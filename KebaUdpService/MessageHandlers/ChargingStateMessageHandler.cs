@@ -4,6 +4,8 @@ namespace KebaUdpService.MessageHandlers
 {
     public class ChargingStateMessageHandler : KebaMessageHandler
     {
+        public const string Topic = "/chargingstate";
+
         public ChargingStateMessageHandler(IKebaConnector kebaConnector, ILoggerFactory loggerfactory, IMqttClient mqttClient) : base(kebaConnector, loggerfactory, mqttClient)
         {
         }
@@ -18,9 +20,8 @@ namespace KebaUdpService.MessageHandlers
 
             ChargingState = (ChargingState) state.GetValueOrDefault();
 
-            SendMessage("/chargingstate", ChargingState.ToString());
-            Logger.LogDebug($"Charging state handled. " +
-                            $"State: {ChargingState.ToString()}");
+            SendMessage(Topic, ChargingState.ToString());
+            Logger.LogDebug($"Charging state handled. State: {ChargingState.ToString()}");
         }
     }
 }

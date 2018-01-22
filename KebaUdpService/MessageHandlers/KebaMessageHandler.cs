@@ -51,6 +51,5 @@ namespace KebaUdpService.MessageHandlers
         }
 
         public abstract void HandleMessage(dynamic jsonObject);
-
     }
 }

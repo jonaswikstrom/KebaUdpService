@@ -4,6 +4,8 @@ namespace KebaUdpService.MessageHandlers
 {
     public class PlugStateMessageHandler : KebaMessageHandler
     {
+        public const string Topic = "/plugstate";
+
         public PlugStateMessageHandler(IKebaConnector kebaConnector, ILoggerFactory loggerfactory, IMqttClient mqttClient) : base(kebaConnector, loggerfactory, mqttClient)
         {
         }
@@ -18,10 +20,8 @@ namespace KebaUdpService.MessageHandlers
 
             var plugState = (PlugState)plug.GetValueOrDefault();
 
-            SendMessage("/plugstate", plugState.ToString());
-
-            Logger.LogDebug($"Plugstate handled. " +
-                            $"Plug: {plugState.ToString()}");
+            SendMessage(Topic, plugState.ToString());
+            Logger.LogDebug($"Plugstate handled. Plug: {plugState.ToString()}");
         }
     }
 }

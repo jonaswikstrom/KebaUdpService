@@ -4,10 +4,12 @@ namespace KebaUdpService.MessageHandlers
 {
     public class Report2MessageHandler : KebaMessageHandler
     {
+
         public Report2MessageHandler(IKebaConnector kebaConnector, 
             ILoggerFactory loggerfactory, IMqttClient mqttClient) : 
             base(kebaConnector, loggerfactory, mqttClient)
         {
+
         }
 
         public override void HandleMessage(dynamic jsonObject)
@@ -23,10 +25,10 @@ namespace KebaUdpService.MessageHandlers
             ChargingState = (ChargingState) state.GetValueOrDefault();
             var plugState = (PlugState) plug.GetValueOrDefault();
 
-            SendMessage("/chargingstate", ChargingState.ToString());
-            SendMessage("/plugstate", plugState.ToString());
+            SendMessage(ChargingStateMessageHandler.Topic, ChargingState.ToString());
+            SendMessage(PlugStateMessageHandler.Topic, plugState.ToString());
 
-            Logger.LogDebug($"Report 2 handled. " +
+            Logger.LogDebug("Report 2 handled. " +
                             $"State: {ChargingState.ToString()}," +
                             $"Plug: {plugState.ToString()}");
         }

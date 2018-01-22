@@ -4,6 +4,9 @@ namespace KebaUdpService.MessageHandlers
 {
     public class Report3MessageHandler : KebaMessageHandler
     {
+        public const string PowerTopic = "power";
+        private const string ETotalTopic = "etotal";
+
         public Report3MessageHandler(IKebaConnector kebaConnector, 
             ILoggerFactory loggerfactory, IMqttClient mqttClient) : 
             base(kebaConnector, loggerfactory, mqttClient)
@@ -14,7 +17,6 @@ namespace KebaUdpService.MessageHandlers
         public override void HandleMessage(dynamic jsonObject)
         {
             int? reportId = jsonObject.ID;
-
 
             if(reportId.GetValueOrDefault() != 3)
                 return;
@@ -30,12 +32,9 @@ namespace KebaUdpService.MessageHandlers
             if (ChargingState == ChargingState.Charging)
                 eTotal = eTotal.GetValueOrDefault() + ePres.GetValueOrDefault();
 
-            SendMessage("power", power.Value.ToString("F1"));
-
-            SendMessage("epres", ePres.Value.ToString("F1"));
-
-            SendMessage("etotal", eTotal.Value.ToString("F1"));
-
+            SendMessage(PowerTopic, power.Value.ToString("F1"));
+            SendMessage(EPresMessageHandler.Topic, ePres.Value.ToString("F1"));
+            SendMessage(ETotalTopic, eTotal.Value.ToString("F1"));
 
             Logger.LogDebug("Report 3 handled. " +
                             $"Power: {power:F1}W, E-pres: {ePres:F1}kWh, E-total: {eTotal:F1}kWh");
