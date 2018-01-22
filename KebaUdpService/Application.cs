@@ -62,7 +62,8 @@ namespace KebaUdpService
             serviceCollection.AddSingleton<IConfiguration>(configuration);
             serviceCollection.AddSingleton<IMqttClient, MqttClient>();
             serviceCollection.AddSingleton<IKebaConnector>(p =>
-                new KebaConnector(p.GetRequiredService<ILoggerFactory>(), "192.168.1.122", 7090));
+                new KebaConnector(p.GetRequiredService<ILoggerFactory>(), configuration["keba:hostname"], 
+                int.Parse(configuration["keba:portnumber"])));
             serviceCollection.AddSingleton<IKebaMessageHandler, EPresMessageHandler>();
             serviceCollection.AddSingleton<IKebaMessageHandler, Report2MessageHandler>();
             serviceCollection.AddSingleton<IKebaMessageHandler, Report3MessageHandler>();
