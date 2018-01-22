@@ -135,6 +135,7 @@ _TeamCity*
 *.coveragexml
 
 # NCrunch
+*crunch*
 _NCrunch_*
 .*crunch*.local.xml
 nCrunchTemp_*
